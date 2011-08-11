@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="angelscript;scintilla"
+				AdditionalIncludeDirectories="angelscript;scintilla;ollydbg"
 				PreprocessorDefinitions="WIN32_LEAN_AND_MEAN;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="scintilla\scintilla.lib angelscript\angelscript.lib plugin.lib imm32.lib"
+				AdditionalDependencies="scintilla\scintilla.lib angelscript\angelscript.lib ollydbg\plugin.lib imm32.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -116,7 +116,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="3"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="angelscript;scintilla"
+				AdditionalIncludeDirectories="angelscript;scintilla;ollydbg"
 				PreprocessorDefinitions="WIN32_LEAN_AND_MEAN;_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -136,7 +136,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="scintilla\scintilla.lib angelscript\angelscript.lib plugin.lib imm32.lib"
+				AdditionalDependencies="scintilla\scintilla.lib angelscript\angelscript.lib ollydbg\ollydbg.lib imm32.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -202,6 +202,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\FireFlyLang.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\pluginmain.cpp"
 				>
 			</File>
@@ -221,6 +225,10 @@
 			>
 			<File
 				RelativePath=".\FireFly.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FireFlyLang.h"
 				>
 			</File>
 			<File

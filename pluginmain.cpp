@@ -3,9 +3,9 @@
  * Sets up plugin structures and forwards plugin notifications from Ollydbg.
  */
 
-#include <windows.h>
 #include <cstring>
-#include "plugin.h"
+#include <windows.h>
+#include <ollydbg.h>
 #include "FireFly.h"
 
 extern HMODULE g_Instance; // in dllmain.cpp

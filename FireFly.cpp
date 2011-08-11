@@ -1,11 +1,9 @@
 #include "FireFly.h"
 
 #include <windows.h>
-#include "resource.h"
-
-#include "plugin.h"
-
+//#include <ollydbg.h>
 #include <scintilla.h>
+#include "resource.h"
 
 FireFly::FireFly(HINSTANCE instance, HWND parent) : instance(instance), parent(parent), dialog_main(NULL)
 {
