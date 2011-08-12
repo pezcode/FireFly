@@ -1,3 +1,6 @@
+#ifndef FIREFLYLANG_H
+#define FIREFLYLANG_H
+
 #include "FireFly.h"
 
 class asIScriptEngine;
@@ -6,7 +9,7 @@ class FireFlyLang
 {
 public:
 
-	FireFlyLang();
+	FireFlyLang(FireFly& interface);
 	~FireFlyLang();
 
 	bool register_functions();
@@ -18,3 +21,5 @@ private:
 	FireFly& interface;
 	asIScriptEngine* engine;
 };
+
+#endif

@@ -1,12 +1,18 @@
 #include "FireFly.h"
 
-#include <windows.h>
 //#include <ollydbg.h>
+#include <commctrl.h>
 #include <scintilla.h>
-#include "resource.h"
 
-FireFly::FireFly(HINSTANCE instance, HWND parent) : instance(instance), parent(parent), dialog_main(NULL)
+const wchar_t FireFly::VERSION[] = L"0.02";
+
+FireFly::FireFly(HINSTANCE instance, HWND parent) : instance(instance), parent(parent)
 {
+	INITCOMMONCONTROLSEX icce;
+	icce.dwSize = sizeof(icce);
+	icce.dwICC = ICC_STANDARD_CLASSES | ICC_LINK_CLASS;
+	InitCommonControlsEx(&icce);
+
 	Scintilla_RegisterClasses(this->instance);
 	Scintilla_LinkLexers();
 }
@@ -16,35 +22,9 @@ FireFly::~FireFly()
 	Scintilla_ReleaseResources();
 }
 
-bool FireFly::show()
-{
-	if(hDialog)
-		return true;
-	hDialog = CreateDialog(this->instance, MAKEINTRESOURCE(IDD_MAIN), this->parent, &FireFly::dialog_func);
-	return (hDialog != NULL);
-}
-
-bool FireFly::close()
-{
-	if(hDialog)
-	{
-		return DestroyWindow(hDialog);
-	}
-}
-
-bool FireFly::about()
-{
-const wchar_t TEXT_ABOUT[] =	L"FireFly 0.1\n"
-								L"C++ scripting with Ollydbg interface\n"
-								L"AngelScript: 2.21.0"
-								L"Scintilla: 2.28";
-
-	DialogBox(this->instance, MAKEINTRESOURCE(IDD_ABOUT), parent, &FireFly::about_func);
-	return true;
-}
-
 void FireFly::run_script()
 {
+	/*
 	// The CScriptBuilder helper is an add-on that loads the file,
 	// performs a pre-processing pass if necessary, and then tells
 	// the engine to build a script module.
@@ -79,38 +59,5 @@ void FireFly::run_script()
 			message("Unknown error.");
 			break;
 	}
-}
-
-void FireFly::message(const string& str)
-{
-	MessageBoxA(_hwollymain, str.c_str(), "FireFly", MB_ICONINFORMATION);
-}
-
-INT_PTR CALLBACK FireFly::dialog_func(HWND Window, UINT Message, WPARAM wParam, LPARAM lParam)
-{
-	switch(Message)
-	{
-		case WM_INITDIALOG:
-			SendDlgItemMessage(Window, IDC_EDIT, SCI_SETLEXER)
-			break;
-
-		case WM_COMMAND:
-				switch(LOWORD(wParam))
-				{
-				case IDC_EDIT:
-					break;
-
-				default:
-					return false;
-				}
-			break;
-
-		case WM_CLOSE:
-			EndDialog(Window, 0);
-			break;
-
-		default:
-			return false;
-	}
-	return true;
+	}*/
 }

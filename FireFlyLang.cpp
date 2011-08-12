@@ -1,6 +1,9 @@
+#include "FireFlyLang.h"
+
 #include <angelscript.h>
 #include <scriptstdstring/scriptstdstring.h>
 #include <scriptbuilder/scriptbuilder.h>
+#include <cassert>
 
 FireFlyLang::FireFlyLang(FireFly& interface) : interface(interface)
 {
@@ -21,5 +24,5 @@ bool FireFlyLang::register_functions()
 
 void FireFlyLang::print(const string& in)
 {
-	this->interface.message(in);
+	//this->interface.message(in);
 }

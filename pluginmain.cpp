@@ -45,7 +45,7 @@ int Menu_Run(t_table* pt, wchar_t* name, ulong index, int mode)
 	case MENU_VERIFY:
 		return MENU_NORMAL;
 	case MENU_EXECUTE:
-		FF_instance->show_dialog();
+		//FF_instance->show_dialog();
 		return MENU_NOREDRAW;
 	default:
 		return MENU_ABSENT;
@@ -59,7 +59,7 @@ int Menu_About(t_table* pt, wchar_t* name, ulong index, int mode)
 	case MENU_VERIFY:
 		return MENU_NORMAL;
 	case MENU_EXECUTE:
-		FF_instance->about();
+		//FF_instance->about();
 		return MENU_NOREDRAW;
 	default:
 		return MENU_ABSENT;
@@ -209,6 +209,7 @@ extc int _export cdecl ODBG2_Pluginclose()
  */
 extc void _export cdecl ODBG2_Plugindestroy()
 {
-	FF_instance->close();
+	//FF_instance->close();
 	delete FF_instance;
+	FF_instance = NULL;
 }
