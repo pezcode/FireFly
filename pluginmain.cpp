@@ -7,11 +7,11 @@
 #include <windows.h>
 #include <ollydbg.h>
 #include "FireFly.h"
+#include "Dialogs.h"
 
 extern HMODULE g_Instance; // in dllmain.cpp
 
-const wchar_t    PLUGINNAME[SHORTNAME] = L"FireFly";
-const wchar_t PLUGINVERSION[SHORTNAME] = L"0.1";
+const wchar_t PLUGINNAME[SHORTNAME] = L"FireFly";
 const int MINOLLYDBGVERSION = 201;
 
 FireFly* FF_instance = NULL;
@@ -60,6 +60,10 @@ int Menu_About(t_table* pt, wchar_t* name, ulong index, int mode)
 		return MENU_NORMAL;
 	case MENU_EXECUTE:
 		//FF_instance->about();
+		{
+		DlgAbout about(g_Instance, _hwollymain);
+		about.modal();
+		}
 		return MENU_NOREDRAW;
 	default:
 		return MENU_ABSENT;
@@ -89,7 +93,7 @@ extc _export int cdecl ODBG2_Pluginquery(int ollydbgversion, wchar_t pluginname[
 	FF_instance = new FireFly(g_Instance, _hwollymain);
 
 	wcscpy(pluginname, PLUGINNAME);
-	wcscpy(pluginversion, PLUGINVERSION);
+	wcscpy(pluginversion, FireFly::VERSION);
 	return PLUGIN_VERSION;
 }
 

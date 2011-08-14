@@ -10,7 +10,8 @@ FireFly::FireFly(HINSTANCE instance, HWND parent) : instance(instance), parent(p
 {
 	INITCOMMONCONTROLSEX icce;
 	icce.dwSize = sizeof(icce);
-	icce.dwICC = ICC_STANDARD_CLASSES | ICC_LINK_CLASS;
+	// We need tabs, tooltips, link controls
+	icce.dwICC = ICC_STANDARD_CLASSES | ICC_WIN95_CLASSES | ICC_LINK_CLASS;
 	InitCommonControlsEx(&icce);
 
 	Scintilla_RegisterClasses(this->instance);

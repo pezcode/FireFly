@@ -63,16 +63,15 @@ BEGIN
     CONTROL         "Custom1",IDC_CUSTOM1,"Scintilla",WS_TABSTOP,7,7,302,146
 END
 
-IDD_ABOUT DIALOGEX 0, 0, 212, 252
+IDD_ABOUT DIALOGEX 0, 0, 286, 190
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,155,231,50,14
-    EDITTEXT        IDC_EDIT1,7,72,198,52,ES_AUTOHSCROLL
-    LTEXT           "Firefly __bold__",IDC_STATIC,7,48,52,8
-    CONTROL         "<a>SysLink1</a>",LnkAboutAS,"SysLink",WS_TABSTOP,15,174,97,14
-    CONTROL         "<a>SysLink2</a>",LnkAboutSC,"SysLink",WS_TABSTOP,19,194,60,14
+    DEFPUSHBUTTON   "OK",BnOKAbout,229,169,50,14
+    LTEXT           "FIRE::FLY",IDC_STATIC,102,20,33,8
+    CONTROL         "",TabAbout,"SysTabControl32",0x0,7,43,272,123
+    ICON            IDI_MAIN,IDC_STATIC,75,14,21,20
 END
 
 IDD_INPUT DIALOGEX 0, 0, 264, 97
@@ -84,6 +83,30 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,207,76,50,14
     EDITTEXT        IDC_EDIT1,7,51,250,14,ES_AUTOHSCROLL
     LTEXT           "Static",IDC_STATIC,7,7,250,41
+END
+
+IDD_ABOUT_INFO DIALOGEX 0, 0, 222, 146
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_EDIT1,7,7,208,132,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+END
+
+IDD_ABOUT_LIBS DIALOGEX 0, 0, 222, 146
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Libraries here...",IDC_STATIC,75,22,52,8
+    CONTROL         "<a>AngelScript</a>",LnkAboutAS,"SysLink",WS_TABSTOP,40,46,60,14
+    CONTROL         "<a>Scintilla</a>",LnkAboutSC,"SysLink",WS_TABSTOP,39,60,60,14
+END
+
+IDD_ABOUT_LIC DIALOGEX 0, 0, 222, 146
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "zlib................",IDC_STATIC,35,14,54,8
+    EDITTEXT        EdLicense,15,30,193,102,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY
 END
 
 
@@ -106,9 +129,9 @@ BEGIN
     IDD_ABOUT, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 205
+        RIGHTMARGIN, 279
         TOPMARGIN, 7
-        BOTTOMMARGIN, 245
+        BOTTOMMARGIN, 183
     END
 
     IDD_INPUT, DIALOG
@@ -118,9 +141,42 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 90
     END
+
+    IDD_ABOUT_INFO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 215
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 139
+    END
+
+    IDD_ABOUT_LIBS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 215
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 139
+    END
+
+    IDD_ABOUT_LIC, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 215
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 139
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_MAIN                ICON                    "about.ico"
 #endif    // German (Germany) resources
 /////////////////////////////////////////////////////////////////////////////
 

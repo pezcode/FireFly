@@ -5,27 +5,37 @@
 const string Dialog::DEFTITLE = "FireFly";
 const TCHAR Dialog::PROP_INSTANCE[] = _T("FireFlyDialogInstancePtr");
 
-Dialog::Dialog(HINSTANCE instance, LPTSTR restemplate, HWND parent) : instance(instance), restemplate(restemplate), parent(parent), window(NULL)/*, result(0)*/
+Dialog::Dialog(HINSTANCE instance, LPTSTR str_template, HWND parent) : instance(instance), restemplate(str_template), parent(parent), window(NULL)/*, result(0)*/
 {
 	assert(parent == NULL || IsWindow(parent));
 }
 
-bool Dialog::show(bool modal)
+Dialog::Dialog(HINSTANCE instance, UINT id_template, HWND parent) : instance(instance), restemplate(MAKEINTRESOURCE(id_template)), parent(parent), window(NULL)/*, result(0)*/
 {
-	this->modal = modal;
-	if(this->modal)
-	{
-		/*this->result = */DialogBoxParam(this->instance, this->restemplate, this->parent, &Dialog::dlg_proc_proxy, reinterpret_cast<LPARAM>(this));
-		//this->closed = true;
-		return true;
-		//return (this->result != -1);
-	}
-	else
-	{
-		//this->result = 0;
-		HWND wnd = CreateDialogParam(this->instance, this->restemplate, this->parent, &Dialog::dlg_proc_proxy, reinterpret_cast<LPARAM>(this));
-		return (wnd != NULL);
-	}
+	assert(parent == NULL || IsWindow(parent));
+}
+
+bool Dialog::modal(INT_PTR* result)
+{
+	if(!this->closed())
+		return false;
+
+	this->is_modal = true;
+	INT_PTR result_ = DialogBoxParam(this->instance, this->restemplate, this->parent, &Dialog::dlg_proc_proxy, reinterpret_cast<LPARAM>(this));
+	this->window = NULL;
+	if(result)
+		*result = result_;
+	return (result_ != -1);
+}
+
+bool Dialog::modeless()
+{
+	if(!this->closed())
+		return false;
+
+	this->is_modal = false;
+	HWND window = CreateDialogParam(this->instance, this->restemplate, this->parent, &Dialog::dlg_proc_proxy, reinterpret_cast<LPARAM>(this));
+	return (window != NULL);
 }
 
 bool Dialog::close()
@@ -33,7 +43,7 @@ bool Dialog::close()
 	if(this->closed())
 		return true;
 
-	if(this->modal)
+	if(this->is_modal)
 	{
 		SendMessage(this->window, WM_CLOSE, 0, 0);
 	}
@@ -60,7 +70,10 @@ Dialog* Dialog::get_instance(HWND window)
 
 bool Dialog::internal_close(INT_PTR result)
 {
-	if(this->modal)
+	if(this->closed())
+		return true;
+
+	if(this->is_modal)
 	{
 		return EndDialog(this->window, result);
 	}
@@ -73,7 +86,7 @@ bool Dialog::internal_close(INT_PTR result)
 
 INT_PTR Dialog::dlg_proc_proxy(HWND window, UINT message, WPARAM wParam, LPARAM lParam)
 {
-Dialog* dlg = NULL;
+Dialog* dlg = Dialog::get_instance(window);
 
 	switch(message)
 	{
@@ -84,15 +97,20 @@ Dialog* dlg = NULL;
 		dlg->set_instance(dlg->window);
 		break;
 	case WM_DESTROY:
-		dlg = Dialog::get_instance(window);
 		assert(dlg);
+		dlg->dlg_proc(message, wParam, lParam);
 		dlg->window = NULL;
-		break;
+		return false;
+		/*
 	default:
 		dlg = Dialog::get_instance(window);
 		assert(dlg);
 		break;
+		*/
 	}
 
-	return dlg->dlg_proc(message, wParam, lParam);
+	if(dlg)
+		return dlg->dlg_proc(message, wParam, lParam);
+	else
+		return false;
 }

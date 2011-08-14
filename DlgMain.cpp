@@ -1,14 +1,16 @@
-#include "FireFly.h"
+#include "Dialogs.h"
 
 #include <scintilla.h>
 #include <cassert>
 
-bool FireFly::DlgMain::show()
+/*
+bool DlgMain::show()
 {
-	return Dialog::show(false); // show modal
+	return Dialog::modeless();
 }
+*/
 
-INT_PTR FireFly::DlgMain::dlg_proc(UINT message, WPARAM wParam, LPARAM lParam)
+INT_PTR DlgMain::dlg_proc(UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch(message)
 	{
@@ -30,6 +32,9 @@ INT_PTR FireFly::DlgMain::dlg_proc(UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_CLOSE:
 		internal_close(0);
 		break;
+
+	default:
+		return false;
 	}
 
 	return true;
