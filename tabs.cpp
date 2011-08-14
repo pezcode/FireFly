@@ -1,3 +1,5 @@
+#include "tabs.h"
+
 #include <windows.h>
 #include <commctrl.h> // Tabs
 #include <uxtheme.h>  // EnableThemeDialogTexture
@@ -5,16 +7,34 @@
 #include <tchar.h>
 #include <cassert>
 
-const TCHAR PropName[] = _T("TabCtrlCurWnd");
+/**
+ * Enables/disables the theme-defined background texture for a dialog.
+ * 
+ * The dialog texture is a theme-specific background image that should be applied
+ * to child dialogs of themed tab controls. This makes sure the child dialogs
+ * visually fit into the frame and resemble the standard Windows appearance.
+ * 
+ * @param Window
+ *   Handle of the dialog for which to set the texture.
+ * @param Enable
+ *   Enable or disable theme background.
+ * 
+ * @return
+ *   Returns true if no error occured.
+ */
+bool SetTabThemeTexture(HWND Window, bool Enable);
 
-int  AddTab(HWND TabWindow, HWND Window, const TCHAR* Caption, int Index);
-bool RemoveTab(HWND TabWindow, int Index);
-bool TabCleanup(HWND TabWindow);
-bool SetTabIcon(HWND TabWindow, int Index, HICON Icon);
-int  TabToFront(HWND TabWindow, int Index);
-
-void SetTabThemeTexture(HWND Window, bool Enable);
+/**
+ * Checks if visual styles are enabled in the current process.
+ * 
+ * Visual styles exist on Windows XP and above to support theming of common controls.
+ * 
+ * @return
+ *   Returns true if visual styles are supported and enabled.
+ */
 bool VisualStylesEnabled();
+
+const TCHAR PropName[] = _T("TabCtrlCurWnd");
 
 int AddTab(HWND TabWindow, HWND Window, const TCHAR* Caption, int Index)
 {
@@ -197,14 +217,15 @@ bool TabCleanup(HWND TabWindow)
 	return Result;
 }
 
-void SetTabThemeTexture(HWND Window, bool Enable)
+bool SetTabThemeTexture(HWND Window, bool Enable)
 {
 	assert(IsWindow(Window));
 
 	if(VisualStylesEnabled())
 	{
-		EnableThemeDialogTexture(Window, Enable ? ETDT_ENABLETAB : ETDT_DISABLE);
+		return (S_OK == EnableThemeDialogTexture(Window, Enable ? ETDT_ENABLETAB : ETDT_DISABLE));
 	}
+	return false;
 }
 
 bool VisualStylesEnabled()

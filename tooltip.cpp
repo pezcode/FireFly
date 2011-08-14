@@ -1,29 +1,29 @@
 #include "tooltip.h"
 
 #include <commctrl.h>
+#include <cassert>
 
-HWND CreateTooltip(HWND Window, HINSTANCE Instance, const TCHAR* Text, bool Transparent)
+HWND CreateTooltip(HWND Window, const TCHAR* Text, bool Transparent, HINSTANCE Instance)
 {
-HWND TTWindow;
-TOOLINFO ti;
+	assert(IsWindow(Window));
 
-	TTWindow = CreateWindow(/*WS_EX_TOPMOST, */TOOLTIPS_CLASS, NULL,
-	                          WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
-	                          CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-	                          Window, NULL, Instance, NULL);
+	HWND TTWindow = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, NULL,
+	                               WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
+	                               CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+	                               Window, NULL, Instance, NULL);
 
-	// "You must explicitly define a ToolTip control as topmost. Otherwise, it might be covered by the parent window." ???
-	//SetWindowPos(TTWindow, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+	if(TTWindow)
+	{
+		TOOLINFO ti;
+		ti.cbSize   = sizeof(TOOLINFO);
+		ti.uFlags   = TTF_SUBCLASS | (Transparent ? TTF_TRANSPARENT : 0); // Don't hide the tooltip on mouse over
+		ti.hwnd     = Window;
+		ti.hinst    = Instance;
+		ti.uId      = 0;
+		ti.lpszText = Text ? const_cast<TCHAR*>(Text) : LPSTR_TEXTCALLBACK;
+		GetClientRect(Window, &ti.rect);
 
-	ti.cbSize   = sizeof(TOOLINFO);
-	ti.uFlags   = TTF_SUBCLASS | (Transparent ? TTF_TRANSPARENT : 0); // Don't hide the tooltip on mouse over
-	ti.hwnd     = Window;
-	ti.hinst    = Instance;
-	ti.uId      = 0;
-	ti.lpszText = Text ? const_cast<TCHAR*>(Text) : LPSTR_TEXTCALLBACK;
-	GetClientRect(Window, &ti.rect);
-
-	SendMessage(TTWindow, TTM_ADDTOOL, 0, reinterpret_cast<LPARAM>(&ti));
-
+		SendMessage(TTWindow, TTM_ADDTOOL, 0, reinterpret_cast<LPARAM>(&ti));
+	}
 	return TTWindow;
 }

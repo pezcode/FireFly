@@ -28,7 +28,6 @@ public:
 private:
 	using Dialog::modeless; //only allow modal
 	INT_PTR dlg_proc(UINT, WPARAM, LPARAM);
-	//static const wchar_t TEXT[];
 
 	/*
 	 * Info Dialog for About tab (description, version, URL)

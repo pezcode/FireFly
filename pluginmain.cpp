@@ -98,18 +98,13 @@ extc _export int cdecl ODBG2_Pluginquery(int ollydbgversion, wchar_t pluginname[
 }
 
 /**
- * Called when Ollydbg requests us to add ourselves to the plugin.
- * 
- * This information comes from the main Windows debug loop.
- * Not all events are reported if command emulation is active, use ODBG2_Pluginexception in that case.
- * Only use this callback if you need to as it may have an impact on speed.
- * 
- * This callback is optional.
+ * Called by Ollydbg to ask us to add ourselves to the plugin menu.
  * 
  * @param type
  * 
  * @return
  *   Pointer to an array of t_menu items, terminated by an empty t_menu.
+ *   NULL if we don't add any items.
  */
 extc _export t_menu* cdecl ODBG2_Pluginmenu(wchar_t* type)
 {
@@ -138,7 +133,7 @@ extc void _export cdecl ODBG2_Pluginmainloop(DEBUG_EVENT* debugevent)
 }
 
 /**
- * Called when Ollydbg finished analysis of a module.
+ * Called when Ollydbg encounters an exception.
  * 
  * @param preg
  */

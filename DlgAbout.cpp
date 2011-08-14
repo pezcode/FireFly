@@ -7,13 +7,6 @@
 #include "tabs.h"
 #include "tooltip.h"
 
-/*
-const wchar_t DlgAbout::TEXT[] =	L"FireFly 0.1\n"
-											L"C++ scripting with Ollydbg interface\n"
-											L"AngelScript: 2.21.0"
-											L"Scintilla: 2.28";
-*/
-
 INT_PTR DlgAbout::dlg_proc(UINT message, WPARAM wParam, LPARAM lParam)
 {
 static HWND TabWindow;
@@ -73,15 +66,15 @@ static TabLicense* TabDlgLicense;
 		break;
 
 	case WM_COMMAND:
-			switch(LOWORD(wParam))
-			{
-			case BnOKAbout:
-				SendMessage(this->window, WM_CLOSE, 0, 0);
-				break;
+		switch(LOWORD(wParam))
+		{
+		case BnOKAbout:
+			SendMessage(this->window, WM_CLOSE, 0, 0);
+			break;
 
-			default:
-				return false;
-			}
+		default:
+			return false;
+		}
 		break;
 
 	case WM_CLOSE:
@@ -112,11 +105,11 @@ INT_PTR DlgAbout::TabInfo::dlg_proc(UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_COMMAND:
-			switch(LOWORD(wParam))
-			{
-			default:
-				return false;
-			}
+		switch(LOWORD(wParam))
+		{
+		default:
+			return false;
+		}
 		break;
 
 	case WM_CLOSE:
@@ -153,8 +146,8 @@ static HWND TT_URL[2];
 		wcscpy(item.szUrl, URL_SCINTILLA);
 		SendDlgItemMessage(this->window, LnkAboutSC, LM_SETITEM, NULL, reinterpret_cast<LPARAM>(&item));
 
-		TT_URL[0] = CreateTooltip(GetDlgItem(this->window, LnkAboutAS), this->instance, DlgAbout::TabLibraries::URL_ANGELSCRIPT, false);
-		TT_URL[1] = CreateTooltip(GetDlgItem(this->window, LnkAboutSC), this->instance, DlgAbout::TabLibraries::URL_SCINTILLA,   false);
+		TT_URL[0] = CreateTooltip(GetDlgItem(this->window, LnkAboutAS), DlgAbout::TabLibraries::URL_ANGELSCRIPT, false, this->instance);
+		TT_URL[1] = CreateTooltip(GetDlgItem(this->window, LnkAboutSC), DlgAbout::TabLibraries::URL_SCINTILLA,   false, this->instance);
 
 		//ANGELSCRIPT_VERSION_STRING
 		}
@@ -184,11 +177,11 @@ static HWND TT_URL[2];
 
 		/*
 	case WM_COMMAND:
-			switch(LOWORD(wParam))
-			{
-			default:
-				return false;
-			}
+		switch(LOWORD(wParam))
+		{
+		default:
+			return false;
+		}
 		break;
 		*/
 
@@ -239,8 +232,8 @@ INT_PTR DlgAbout::TabLicense::dlg_proc(UINT message, WPARAM wParam, LPARAM lPara
 		wcscpy(item.szUrl, URL_SCINTILLA);
 		SendDlgItemMessage(this->window, LnkAboutSC, LM_SETITEM, NULL, reinterpret_cast<LPARAM>(&item));
 
-		TT_URL[0] = CreateTooltip(GetDlgItem(this->window, LnkAboutAS), this->instance, DlgAboutTabLibraries::URL_ANGELSCRIPT, false);
-		TT_URL[1] = CreateTooltip(GetDlgItem(this->window, LnkAboutSC), this->instance, DlgAboutTabLibraries::URL_SCINTILLA, false);
+		TT_URL[0] = CreateTooltip(GetDlgItem(this->window, LnkAboutAS), DlgAboutTabLibraries::URL_ANGELSCRIPT);
+		TT_URL[1] = CreateTooltip(GetDlgItem(this->window, LnkAboutSC), DlgAboutTabLibraries::URL_SCINTILLA);
 		*/
 		}
 		break;
