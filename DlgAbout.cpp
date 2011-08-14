@@ -149,7 +149,8 @@ static HWND TT_URL[2];
 		TT_URL[0] = CreateTooltip(GetDlgItem(this->window, LnkAboutAS), DlgAbout::TabLibraries::URL_ANGELSCRIPT, false, this->instance);
 		TT_URL[1] = CreateTooltip(GetDlgItem(this->window, LnkAboutSC), DlgAbout::TabLibraries::URL_SCINTILLA,   false, this->instance);
 
-		//ANGELSCRIPT_VERSION_STRING
+		SetDlgItemTextA(this->window, StAboutVerAS, ANGELSCRIPT_VERSION_STRING);
+		SetDlgItemTextA(this->window, StAboutVerSC, "2.28");
 		}
 		break;
 
