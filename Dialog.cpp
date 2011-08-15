@@ -54,11 +54,11 @@ bool Dialog::close()
 	return this->closed();
 }
 
-bool Dialog::set_instance(HWND window)
+bool Dialog::set_instance(HWND window, Dialog* dlg)
 {
 	assert(IsWindow(window));
 
-	return SetProp(window, Dialog::PROP_INSTANCE, reinterpret_cast<HANDLE>(this));
+	return SetProp(window, Dialog::PROP_INSTANCE, reinterpret_cast<HANDLE>(dlg));
 }
 
 Dialog* Dialog::get_instance(HWND window)
@@ -94,19 +94,14 @@ Dialog* dlg = Dialog::get_instance(window);
 		dlg = reinterpret_cast<Dialog*>(lParam);
 		assert(dlg);
 		dlg->window = window;
-		dlg->set_instance(dlg->window);
+		Dialog::set_instance(window, dlg);
 		break;
 	case WM_DESTROY:
 		assert(dlg);
 		dlg->dlg_proc(message, wParam, lParam);
 		dlg->window = NULL;
+		Dialog::set_instance(window, NULL);
 		return false;
-		/*
-	default:
-		dlg = Dialog::get_instance(window);
-		assert(dlg);
-		break;
-		*/
 	}
 
 	if(dlg)

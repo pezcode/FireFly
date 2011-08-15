@@ -60,7 +60,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,205,159,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,259,159,50,14
-    CONTROL         "Custom1",IDC_CUSTOM1,"Scintilla",WS_TABSTOP,7,7,302,146
+    CONTROL         "Custom1",ScEditor,"Scintilla",WS_TABSTOP,7,7,302,146
 END
 
 IDD_ABOUT DIALOGEX 0, 0, 264, 193
@@ -87,11 +87,17 @@ IDD_ABOUT_INFO DIALOGEX 0, 0, 250, 150
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    EDITTEXT        IDC_EDIT1,7,39,236,89,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
-    ICON            IDI_MAIN,IDC_STATIC,7,7,21,20
+    EDITTEXT        IDC_EDIT1,47,60,196,56,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+    ICON            IDI_MAIN,IDC_STATIC,15,14,21,20
+    CONTROL         "For documentation, downloads and source code, visit the <a>GitHub repository</a>.",LnkAboutGithub,
+                    "SysLink",WS_TABSTOP,47,122,196,21
+    LTEXT           "FireFly - C++ script support for Ollydbg2",IDC_STATIC,47,14,141,8
+    LTEXT           "Version:",IDC_STATIC,47,31,27,8
+    LTEXT           "Static",StVersionFireFly,77,31,19,8
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,44,49,199,1
 END
 
-IDD_ABOUT_LIBS DIALOGEX 0, 0, 250, 146
+IDD_ABOUT_LIBS DIALOGEX 0, 0, 243, 146
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
@@ -100,19 +106,19 @@ BEGIN
     CONTROL         "<a>Scintilla</a> enables syntax highlighting and other editor features.",LnkAboutSC,
                     "SysLink",WS_TABSTOP,20,50,203,14
     GROUPBOX        "3rd-party libraries used by FireFly",IDC_STATIC,7,7,229,77
-    LTEXT           "All of the above are open source under different licenses.\r\nFor more info on the respective license terms look at the License file in their subfolders.",IDC_STATIC,7,89,236,50
+    LTEXT           "All of the above are open source under different licenses.\r\nFor more info on the respective license terms look at the License file in their subfolders.",IDC_STATIC,7,89,229,50
     LTEXT           "Version:",IDC_STATIC,30,35,27,8
     LTEXT           "Version:",IDC_STATIC,30,65,27,8
     LTEXT           "Static",StAboutVerAS,60,35,46,8
     LTEXT           "Static",StAboutVerSC,60,65,51,8
 END
 
-IDD_ABOUT_LIC DIALOGEX 0, 0, 222, 146
+IDD_ABOUT_LIC DIALOGEX 0, 0, 245, 146
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LTEXT           "zlib................",IDC_STATIC,35,14,54,8
-    EDITTEXT        EdLicense,15,30,193,102,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "FireFly is licensed under the zlib open source license:",IDC_STATIC,7,7,173,8
+    EDITTEXT        EdLicense,7,23,231,116,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL | WS_HSCROLL
 END
 
 
@@ -159,7 +165,7 @@ BEGIN
     IDD_ABOUT_LIBS, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 243
+        RIGHTMARGIN, 236
         TOPMARGIN, 7
         BOTTOMMARGIN, 139
     END
@@ -167,7 +173,7 @@ BEGIN
     IDD_ABOUT_LIC, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 215
+        RIGHTMARGIN, 238
         TOPMARGIN, 7
         BOTTOMMARGIN, 139
     END

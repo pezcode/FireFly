@@ -45,7 +45,10 @@ int Menu_Run(t_table* pt, wchar_t* name, ulong index, int mode)
 	case MENU_VERIFY:
 		return MENU_NORMAL;
 	case MENU_EXECUTE:
-		//FF_instance->show_dialog();
+		{
+		DlgMain main(g_Instance, _hwollymain);
+		main.modal();
+		}
 		return MENU_NOREDRAW;
 	default:
 		return MENU_ABSENT;
@@ -59,7 +62,6 @@ int Menu_About(t_table* pt, wchar_t* name, ulong index, int mode)
 	case MENU_VERIFY:
 		return MENU_NORMAL;
 	case MENU_EXECUTE:
-		//FF_instance->about();
 		{
 		DlgAbout about(g_Instance, _hwollymain);
 		about.modal();

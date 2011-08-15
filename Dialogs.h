@@ -4,6 +4,8 @@
 #include "Dialog.h"
 #include "resource.h"
 
+#include <scintilla.h>
+
 /*
  * Main dialog (editor, debug controls, etc.)
  */
@@ -11,9 +13,29 @@ class DlgMain : public Dialog
 {
 public:
 	DlgMain(HINSTANCE instance, HWND parent) : Dialog(instance, IDD_MAIN, parent) { }
-	//bool show();
+
+	// WTF!
+	template<typename TW, typename TL> LRESULT SendEditor(UINT message, TW wParam, TL lParam)
+	{
+		return SendMessage(hEditor, message, WPARAM(wParam), LPARAM(lParam));
+	}
+	template<typename TW> LRESULT SendEditor(UINT message, TW wParam)
+	{
+		return SendEditor(message, WPARAM(wParam), 0);
+	}
+	LRESULT SendEditor(UINT message)
+	{
+		return SendEditor(message, 0, 0);
+	}
+
+	void set_editor_color(int style, COLORREF foreground, COLORREF background = RGB(255, 255, 255))
+	{
+		SendEditor(SCI_STYLESETFORE, style, foreground);
+		SendEditor(SCI_STYLESETBACK, style, background);
+	}
 
 private:
+	HWND hEditor;
 	INT_PTR dlg_proc(UINT, WPARAM, LPARAM);
 };
 
@@ -38,6 +60,7 @@ private:
 		TabInfo(HINSTANCE instance, HWND parent) : Dialog(instance, IDD_ABOUT_INFO, parent) { }
 	private:
 		using Dialog::modal; //only allow modeless
+		static const wchar_t URL_GITHUB[];
 		INT_PTR dlg_proc(UINT, WPARAM, LPARAM);
 	};
 

@@ -6,6 +6,7 @@
 #include <cassert>
 #include "tabs.h"
 #include "tooltip.h"
+#include "FireFly.h"
 
 INT_PTR DlgAbout::dlg_proc(UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -94,26 +95,56 @@ static TabLicense* TabDlgLicense;
 	return true;
 }
 
+const wchar_t DlgAbout::TabInfo::URL_GITHUB[] = L"https://github.com/pezcode/FireFly/";
+
 INT_PTR DlgAbout::TabInfo::dlg_proc(UINT message, WPARAM wParam, LPARAM lParam)
 {
+static HWND TT_URL[1];
+
 	switch(message)
 	{
 	case WM_INITDIALOG:
+		assert(sizeof(DlgAbout::TabInfo::URL_GITHUB) <= L_MAX_URL_LENGTH);
+
+		LITEM item;
+		item.mask = LIF_ITEMINDEX | LIF_URL;
+		item.iLink = 0;
+
+		wcscpy(item.szUrl, URL_GITHUB);
+		SendDlgItemMessage(this->window, LnkAboutGithub, LM_SETITEM, NULL, reinterpret_cast<LPARAM>(&item));
+
+		TT_URL[0] = CreateTooltip(GetDlgItem(this->window, LnkAboutGithub), DlgAbout::TabInfo::URL_GITHUB, false, this->instance);
+
+		SetDlgItemText(this->window, StVersionFireFly, FireFly::VERSION);
+		break;
+
+	case WM_NOTIFY:
 		{
-		//FireFly::VERSION
+		const NMHDR* nmHdr = reinterpret_cast<const NMHDR*>(lParam);
+		assert(nmHdr);
+		switch(nmHdr->code)
+		{
+			case NM_CLICK:  // mouse
+			case NM_RETURN: // keyboard
+			{
+				const NMLINK* nmLink = reinterpret_cast<const NMLINK*>(nmHdr);
+				LITEM item = nmLink->item;
+
+				assert((nmHdr->hwndFrom == GetDlgItem(this->window, LnkAboutAS)) || (nmHdr->hwndFrom == GetDlgItem(this->window, LnkAboutSC)));
+				//assert(item.iLink == 0);
+
+				ShellExecute(NULL, L"open", item.szUrl, NULL, NULL, SW_SHOW);
+				break;
+			}
+		}
 		}
 		break;
 
-	case WM_COMMAND:
-		switch(LOWORD(wParam))
+	case WM_DESTROY:
+		for(int i = 0; i < _countof(TT_URL); i++)
 		{
-		default:
-			return false;
+			DestroyWindow(TT_URL[i]);
 		}
-		break;
-
-	case WM_CLOSE:
-		this->internal_close(0);
 		break;
 
 	default:
@@ -167,7 +198,7 @@ static HWND TT_URL[2];
 				LITEM item = nmLink->item;
 
 				assert((nmHdr->hwndFrom == GetDlgItem(this->window, LnkAboutAS)) || (nmHdr->hwndFrom == GetDlgItem(this->window, LnkAboutSC)));
-				assert(item.iLink == 0);
+				//assert(item.iLink == 0);
 
 				ShellExecute(NULL, L"open", item.szUrl, NULL, NULL, SW_SHOW);
 				break;
@@ -175,16 +206,6 @@ static HWND TT_URL[2];
 		}
 		}
 		break;
-
-		/*
-	case WM_COMMAND:
-		switch(LOWORD(wParam))
-		{
-		default:
-			return false;
-		}
-		break;
-		*/
 
 	case WM_DESTROY:
 		for(int i = 0; i < _countof(TT_URL); i++)
@@ -204,81 +225,30 @@ const wchar_t DlgAbout::TabLicense::LICENSE_TEXT[] =
 
 L"Copyright (c) 2011 Christopher Daun" L"\r\n\r\n"
 
-L"This software is provided 'as-is', without any express or implied warranty. In no event will the authors be held liable for any damages arising from the use of this software." L"\r\n\r\n"
+L"This software is provided 'as-is', without any express or" L"\r\n"
+L"implied warranty. In no event will the authors be held liable" L"\r\n"
+L"for any damages arising from the use of this software." L"\r\n\r\n"
 
-L"Permission is granted to anyone to use this software for any purpose, including commercial applications, and to alter it and redistribute it freely, subject to the following restrictions:" L"\r\n"
-L"1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required." L"\r\n"
-L"2. Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software." L"\r\n"
-L"3. This notice may not be removed or altered from any source distribution.";
+L"Permission is granted to anyone to use this software for any" L"\r\n"
+L"purpose, including commercial applications, and to alter it" L"\r\n"
+L"and redistribute it freely, subject to the following" L"\r\n"
+L"restrictions:" L"\r\n\r\n"
+
+L"1. The origin of this software must not be misrepresented; you" L"\r\n"
+L"   must not claim that you wrote the original software. If you" L"\r\n"
+L"   use this software in a product, an acknowledgment in the" L"\r\n"
+L"   product documentation would be appreciated but is not required." L"\r\n"
+L"2. Altered source versions must be plainly marked as such," L"\r\n"
+L"   and must not be misrepresented as being the original software." L"\r\n"
+L"3. This notice may not be removed or altered from any source" L"\r\n"
+L"   distribution.";
 
 INT_PTR DlgAbout::TabLicense::dlg_proc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-//static HWND TT_URL[2];
-
 	switch(message)
 	{
 	case WM_INITDIALOG:
-		{
-			SetDlgItemText(this->window, EdLicense, DlgAbout::TabLicense::LICENSE_TEXT);
-			/*
-		assert(sizeof(DlgAboutTabLibraries::URL_ANGELSCRIPT) <= L_MAX_URL_LENGTH);
-		assert(sizeof(DlgAboutTabLibraries::URL_SCINTILLA) <= L_MAX_URL_LENGTH);
-
-		LITEM item;
-		item.mask = LIF_ITEMINDEX | LIF_URL;
-		item.iLink = 0;
-
-		wcscpy(item.szUrl, URL_ANGELSCRIPT);
-		SendDlgItemMessage(this->window, LnkAboutAS, LM_SETITEM, NULL, reinterpret_cast<LPARAM>(&item));
-		wcscpy(item.szUrl, URL_SCINTILLA);
-		SendDlgItemMessage(this->window, LnkAboutSC, LM_SETITEM, NULL, reinterpret_cast<LPARAM>(&item));
-
-		TT_URL[0] = CreateTooltip(GetDlgItem(this->window, LnkAboutAS), DlgAboutTabLibraries::URL_ANGELSCRIPT);
-		TT_URL[1] = CreateTooltip(GetDlgItem(this->window, LnkAboutSC), DlgAboutTabLibraries::URL_SCINTILLA);
-		*/
-		}
-		break;
-
-		/*
-	case WM_NOTIFY:
-		{
-		const NMHDR* nmHdr = reinterpret_cast<const NMHDR*>(lParam);
-		assert(nmHdr);
-		switch(nmHdr->code)
-		{
-			case NM_CLICK:  // mouse
-			case NM_RETURN: // keyboard
-			{
-				const NMLINK* nmLink = reinterpret_cast<const NMLINK*>(nmHdr);
-				LITEM item = nmLink->item;
-
-				assert((nmHdr->hwndFrom == GetDlgItem(this->window, LnkAboutAS)) || (nmHdr->hwndFrom == GetDlgItem(this->window, LnkAboutSC)));
-				assert(item.iLink == 0);
-
-				ShellExecute(NULL, L"open", item.szUrl, NULL, NULL, SW_SHOW);
-				break;
-			}
-		}
-		}
-		break;
-		*/
-
-		/*
-	case WM_COMMAND:
-			switch(LOWORD(wParam))
-			{
-			default:
-				return false;
-			}
-		break;
-		*/
-
-	case WM_DESTROY:
-		/*
-		for(int i = 0; i < _countof(TT_URL); i++)
-		{
-			DestroyWindow(TT_URL[i]);
-		}*/
+		SetDlgItemText(this->window, EdLicense, DlgAbout::TabLicense::LICENSE_TEXT);
 		break;
 
 	default:

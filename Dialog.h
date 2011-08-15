@@ -34,7 +34,7 @@ private:
 	static const TCHAR PROP_INSTANCE[];
 	LPTSTR restemplate;
 
-	bool set_instance(HWND window);
+	static bool set_instance(HWND window, Dialog* dlg);
 	static Dialog* get_instance(HWND window);
 	static INT_PTR CALLBACK dlg_proc_proxy(HWND, UINT, WPARAM, LPARAM);
 };
