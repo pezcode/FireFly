@@ -1,0 +1,20 @@
+To compile FireFly you will need Visual Studio. If you use the Express Edition
+you will also need the Windows SDK.
+
+The source comes with precompiled static libraries for AngelScript and
+Scintilla built with VS 2008. If you're using a different version
+you will probably have to recompile these.
+
+Compiling AngelScript is pretty straight forward, it comes with project files
+for pretty much any major IDE (and cmake if necessary).
+
+Scintilla is a little bit trickier:
+FireFly only needs the C++ lexer, so you should delete all files from the lexers
+folder except LexCPP.cxx. Then run src/LexGen.py which removes all references to the
+now deleted lexers.
+Create a new project and add everything that's in lexers, lexlib, src and win32.
+Add STATIC_BUILD and SCI_LEXER to the preprocessor directives to get a static library
+and lexer support.
+Add src, lexlib and and include to the additional include directories.
+This setup should compile to a single static library that contains both Scintilla and
+the C++ lexer.

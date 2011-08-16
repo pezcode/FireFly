@@ -87,6 +87,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy &quot;$(OutDir)\$(ProjectName).dll&quot; &quot;C:\Programme\Reversing\Olly 2\Plugins&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -164,6 +165,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy &quot;$(OutDir)\$(ProjectName).dll&quot; &quot;C:\Programme\Reversing\Olly 2\Plugins&quot;"
 			/>
 		</Configuration>
 	</Configurations>
