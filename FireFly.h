@@ -6,8 +6,11 @@
 #include "Dialogs.h"
 #include "resource.h"
 
+#include "FireFlyLang.h"
+
 class FireFly
 {
+friend class FireFlyLang;
 public:
 
 	FireFly(HINSTANCE instance, HWND parent);
@@ -28,7 +31,7 @@ public:
 	bool dlg_input(const std::string& str);
 	*/
 
-	void run_script();
+	void run_script(const std::string& script);
 
 public:
 
@@ -39,7 +42,9 @@ private:
 	HINSTANCE instance;
 	HWND parent;
 
-	DlgMain* dlg_main;
+	FireFlyLang lang;
+
+	//DlgMain* dlg_main;
 };
 
 #endif

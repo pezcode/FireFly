@@ -200,7 +200,7 @@ BEGIN
     BEGIN
         MENUITEM "New",                         IDM_FILE_NEW
         MENUITEM "Open",                        IDM_FILE_OPEN
-        MENUITEM "Save",                        IDM_FILE_SAVE
+        MENUITEM "Save",                        IDM_FILE_SAVE, GRAYED
         MENUITEM SEPARATOR
         MENUITEM "Close",                       IDM_FILE_CLOSE
     END
@@ -218,6 +218,17 @@ BEGIN
         MENUITEM "Help",                        IDM_HELP_HELP
         MENUITEM "About",                       IDM_HELP_ABOUT
     END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_ACCELERATOR ACCELERATORS 
+BEGIN
+    "S",            IDR_FILE_SAVE,          VIRTKEY, CONTROL, NOINVERT
 END
 
 #endif    // German (Germany) resources

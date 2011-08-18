@@ -10,6 +10,7 @@
 #define IDD_ABOUT_LIBS                  107
 #define IDD_ABOUT_LIC                   108
 #define IDR_MAIN                        109
+#define IDR_ACCELERATOR                 110
 #define IDC_EDIT                        1001
 #define IDC_CUSTOM1                     1003
 #define ScEditor                        1003
@@ -23,6 +24,8 @@
 #define StAboutVerSC                    1016
 #define LnkAboutGithub                  1017
 #define StVersionFireFly                1018
+#define SbInfo                          1019
+#define TbMain                          1020
 #define ID_FILE_NEW40001                40001
 #define ID_FILE_OPEN40002               40002
 #define ID_FILE_SAVE40003               40003
@@ -42,13 +45,15 @@
 #define IDM_HELP_HELP                   40017
 #define IDM_HELP_ABOUT                  40018
 #define ID_VIEW_LINENUMBERS40019        40019
+#define IDA_SAVE                        40020
+#define IDR_FILE_SAVE                   40020
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        110
-#define _APS_NEXT_COMMAND_VALUE         40020
+#define _APS_NEXT_RESOURCE_VALUE        111
+#define _APS_NEXT_COMMAND_VALUE         40022
 #define _APS_NEXT_CONTROL_VALUE         1019
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

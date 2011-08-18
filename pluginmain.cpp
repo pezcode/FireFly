@@ -46,7 +46,7 @@ int Menu_Run(t_table* pt, wchar_t* name, ulong index, int mode)
 		return MENU_NORMAL;
 	case MENU_EXECUTE:
 		{
-		DlgMain main(g_Instance, _hwollymain);
+		DlgMain main(g_Instance, _hwollymain, *FF_instance);
 		main.modal();
 		}
 		return MENU_NOREDRAW;
